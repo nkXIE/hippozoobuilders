@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HippoZoo Builders — Строительство зоопарков</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1, h2, h3, .nav-links a {
+            font-family: 'Montserrat', sans-serif;
+        }
+        :root {
+            --header-bg: #428C29;
+            --sand: #E8D5A6;
+            --white: #FFFFFF;
+            --gray: #F5F5F5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background-color: var(--header-bg);
+            color: var(--white);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo img {
+            height: 65px;
+            display: block;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--sand);
+        }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.pexels.com/photos/1277417/pexels-photo-1277417.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 120px 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #1B4D2E;
+        }
+        .about-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 18px;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .stat-item {
+            text-align: center;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .stat-number {
+            font-size: 42px;
+            font-weight: bold;
+            color: #1B4D2E;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        @media (max-width: 1100px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .service-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            transition: 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #ccc;
+        }
+        .slider-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+        .slider-img.active {
+            opacity: 1;
+        }
+        .service-info {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .service-info h3 {
+            margin-bottom: 10px;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            background: #B2DFDB;
+        }
+        .project-info {
+            padding: 20px;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+        .team-card {
+            text-align: center;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--sand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .fallback-emoji {
+            font-size: 64px;
+            color: #1B4D2E;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .benefit-item {
+            text-align: center;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .benefit-item .service-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .contacts {
+            background: #1B4D2E;
+            color: var(--white);
+        }
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .header-flex { flex-direction: column; gap: 15px; }
+            .nav-links { justify-content: center; }
+            .section-title { font-size: 28px; }
+            .logo img { height: 50px; }
+            .slider-container { height: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container header-flex">
+        <div class="logo">
+            <img src="logo.jpg" alt="HippoZoo Builders">
+        </div>
+        <div class="nav-links">
+            <a href="#about">О нас</a>
+            <a href="#services">Услуги</a>
+            <a href="#projects">Проекты</a>
+            <a href="#team">Команда</a>
+            <a href="#contacts">Контакты</a>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Строим зоопарки по всему миру</h1>
+        <p>Проектируем и строим вольеры, павильоны и инфраструктуру для животных. Гарантия 7 лет.</p>
+    </div>
+</section>
+
+<section id="about">
+    <div class="container">
+        <h2 class="section-title">О нас</h2>
+        <div class="about-text">
+            <p><strong>HippoZoo Builders</strong> — международная компания, основанная в <strong>2026 году</strong>. Мы объединили инженеров, биологов, зоотехников и архитекторов, чтобы создавать лучшие условия для животных в неволе. Наша команда из <strong>15 специалистов</strong> уже работает над проектами в России, ОАЭ и Сингапуре.</p>
+        </div>
+        <div class="stats">
+            <div class="stat-item"><div class="stat-number">15</div><div>сотрудников</div></div>
+            <div class="stat-item"><div class="stat-number">3</div><div>проекта в работе</div></div>
+            <div class="stat-item"><div class="stat-number">85 млн ₽</div><div>стоимость объекта</div></div>
+        </div>
+    </div>
+</section>
+
+<section id="services">
+    <div class="container">
+        <h2 class="section-title">Наши услуги</h2>
+        <div class="services-grid" id="servicesGrid"></div>
+    </div>
+</section>
+
+<section id="projects">
+    <div class="container">
+        <h2 class="section-title">Текущие проекты</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <img src="kazan.jpg" alt="Казань">
+                <div class="project-info">
+                    <h3>Казань</h3>
+                    <p>Арктический павильон для белых медведей. Завершение 2027</p>
+                    <strong>Смета: 85 млн ₽</strong>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="dubai.jpg" alt="Дубай">
+                <div class="project-info">
+                    <h3>Дубай</h3>
+                    <p>Крытый тропический лес для орангутанов. Проектирование</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="singapore.jpg" alt="Сингапур">
+                <div class="project-info">
+                    <h3>Сингапур</h3>
+                    <p>Вольер для комодских варанов. Строительство</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="team">
+    <div class="container">
+        <h2 class="section-title">Наша команда</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="ilya.jpg" alt="Илья Соколов" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=fallback-emoji>👨‍💼</div>';">
+                </div>
+                <h3>Илья Соколов</h3>
+                <p>Генеральный директор<br><small>10 лет стажа</small></p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="anfisa.jpg" alt="Анфиса Димитриади" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=fallback-emoji>👩‍💼</div>';">
+                </div>
+                <h3>Анфиса Димитриади</h3>
+                <p>Зам. генерального директора<br><small>5 лет стажа</small></p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="gordey.jpg" alt="Гордей Мисник" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=fallback-emoji>👨‍💻</div>';">
+                </div>
+                <h3>Гордей Мисник</h3>
+                <p>Руководитель международных проектов<br><small>7 лет стажа</small></p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo">
+                    <img src="liza.jpg" alt="Елизавета Мисник" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=fallback-emoji>👩‍🔬</div>';">
+                </div>
+                <h3>Елизавета Мисник</h3>
+                <p>Инженер-биолог<br><small>8 лет стажа</small></p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 30px;"><strong>Итого в штате: 15 специалистов</strong></p>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <div class="benefits-grid">
+            <div class="benefit-item"><div class="service-icon">✅</div><p>Опыт сотрудников — от 1 до 15 лет</p></div>
+            <div class="benefit-item"><div class="service-icon">🐾</div><p>Работа с биологами и зоотехниками</p></div>
+            <div class="benefit-item"><div class="service-icon">🌿</div><p>Экологичные материалы</p></div>
+            <div class="benefit-item"><div class="service-icon">🌍</div><p>Международные стандарты (ISO, EAZA)</p></div>
+            <div class="benefit-item"><div class="service-icon">🔧</div><p>Гарантия 7 лет</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="contacts" class="contacts">
+    <div class="container">
+        <h2 class="section-title" style="color: var(--sand);">Контакты</h2>
+        <div class="contacts-grid">
+            <div>📞 8 (999) 632-91-20</div>
+            <div>✉️ scorphix12@gmail.com</div>
+            <div>📍 г. Краснодар, Карасунская ул. 106</div>
+            <div>🕒 пн–пт 9:00–20:00</div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Данные для услуг: заголовок, описание, массив изображений
+    const servicesData = [
+        {
+            title: "Проектирование зоопарков",
+            desc: "Разработка концепции под ключ",
+            images: ["service1.jpg", "service1_2.jpg", "service1_3.jpg"]
+        },
+        {
+            title: "Строительство вольеров",
+            desc: "Для хищников, приматов, птиц, копытных",
+            images: ["service2.jpg", "service2_2.jpg", "service2_3.jpg"]
+        },
+        {
+            title: "Павильоны с климат-контролем",
+            desc: "Тропики, арктика, пустыня",
+            images: ["service3.jpg", "service3_2.jpg", "service3_3.jpg"]
+        },
+        {
+            title: "Инфраструктура",
+            desc: "Кафе, детские зоны, административные корпуса",
+            images: ["service4.jpg", "service4_2.jpg", "service4_3.jpg"]
+        }
+    ];
+
+    // Функция создания слайдера с управлением при наведении
+    function createSlider(images, container) {
+        let currentIndex = 0;
+        let intervalId = null;
+        const imgElements = [];
+
+        // Создаём элементы изображений
+        images.forEach((src, idx) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `слайд ${idx+1}`;
+            img.classList.add('slider-img');
+            if (idx === 0) img.classList.add('active');
+            img.onerror = () => {
+                // Удаляем битую картинку
+                const index = imgElements.indexOf(img);
+                if (index !== -1) imgElements.splice(index, 1);
+                img.remove();
+                if (imgElements.length === 0) {
+                    // Заглушка
+                    const placeholder = document.createElement('div');
+                    placeholder.style.width = '100%';
+                    placeholder.style.height = '100%';
+                    placeholder.style.backgroundColor = '#ccc';
+                    placeholder.style.display = 'flex';
+                    placeholder.style.alignItems = 'center';
+                    placeholder.style.justifyContent = 'center';
+                    placeholder.style.fontSize = '24px';
+                    placeholder.style.color = '#666';
+                    placeholder.innerText = 'Нет изображения';
+                    container.appendChild(placeholder);
+                } else if (currentIndex >= imgElements.length) {
+                    currentIndex = 0;
+                    imgElements[0]?.classList.add('active');
+                }
+            };
+            container.appendChild(img);
+            imgElements.push(img);
+        });
+
+        if (imgElements.length === 0) return;
+
+        // Функция переключения на следующий слайд
+        function nextSlide() {
+            imgElements[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % imgElements.length;
+            imgElements[currentIndex].classList.add('active');
+        }
+
+        // Функция запуска таймера
+        function startSlider() {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(nextSlide, 3000);
+        }
+
+        // Функция остановки таймера и сброса на первый слайд
+        function stopAndReset() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+            // Возвращаем на первый слайд
+            if (currentIndex !== 0) {
+                imgElements[currentIndex].classList.remove('active');
+                currentIndex = 0;
+                imgElements[0].classList.add('active');
+            }
+        }
+
+        // Навешиваем события на контейнер карточки (родительский элемент .service-card)
+        const serviceCard = container.closest('.service-card');
+        if (serviceCard) {
+            serviceCard.addEventListener('mouseenter', startSlider);
+            serviceCard.addEventListener('mouseleave', stopAndReset);
+        }
+    }
+
+    // Генерация карточек услуг
+    const servicesGrid = document.getElementById('servicesGrid');
+    servicesData.forEach(service => {
+        const card = document.createElement('div');
+        card.className = 'service-card';
+        
+        const sliderDiv = document.createElement('div');
+        sliderDiv.className = 'slider-container';
+        
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'service-info';
+        infoDiv.innerHTML = `<h3>${service.title}</h3><p>${service.desc}</p>`;
+        
+        card.appendChild(sliderDiv);
+        card.appendChild(infoDiv);
+        servicesGrid.appendChild(card);
+        
+        createSlider(service.images, sliderDiv);
+    });
+</script>
+</body>
+</html>
